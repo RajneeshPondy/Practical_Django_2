@@ -1,8 +1,10 @@
 from django.db import models
 
+
 class ActiveManager(models.Manager):
     def active(self):
         return self.filter(active=True)
+
 
 class Product(models.Model):
     name = models.CharField(max_length=32)
@@ -14,6 +16,9 @@ class Product(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     objects = ActiveManager()
+
+    def __str__(self):
+        return self.name
 
 
 class ProductImage(models.Model):
