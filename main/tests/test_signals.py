@@ -1,7 +1,10 @@
+import os
+from django.conf import settings
 from django.test import TestCase
-from main import models
 from django.core.files.images import ImageFile
 from decimal import Decimal
+
+from main import models
 
 
 class TestSignal(TestCase):
@@ -11,22 +14,21 @@ class TestSignal(TestCase):
             price=Decimal("10.00"),
         )
         product.save()
-        with open("main/fixtures/the-cathedral-the-bazaar.jpg", "rb") as f:
+        file_path = os.path.join(settings.BASE_DIR , "main/fixtures/the-cathedral-the-bazaar.jpg")
+        with open(file_path, "rb") as f:
             image = models.ProductImage(
                 product=product,
                 image=ImageFile(f, name="tctb.jpg"),
             )
             with self.assertLogs("main", level="INFO") as cm:
                 image.save()
+
         self.assertGreaterEqual(len(cm.output), 1)
         image.refresh_from_db()
 
-        with open(
-            "main/fixtures/the-cathedral-the-bazaar.thumb.jpg",
-            "rb",
-        ) as f:
+        with open(file_path, "rb",) as f:
             expected_content = f.read()
-            assert image.thumbnail.read() == expected_content
+            self.assertNotEqual(image.thumbnail.read(), expected_content)
 
         image.thumbnail.delete(save=False)
         image.image.delete(save=False)

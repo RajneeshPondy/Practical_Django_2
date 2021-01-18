@@ -6,8 +6,14 @@ class ActiveManager(models.Manager):
         return self.filter(active=True)
 
 
+class ProductTagManager(models.Manager):
+    def get_by_natural_key(self, slug):
+        return self.get(slug=slug)
+
+
 class Product(models.Model):
     name = models.CharField(max_length=32)
+    tags = models.ManyToManyField("ProductTag", blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     slug = models.SlugField(max_length=48)
@@ -33,3 +39,11 @@ class ProductTag(models.Model):
     slug = models.SlugField(max_length=48)
     description = models.TextField(blank=True)
     active = models.BooleanField(default=True)
+
+    objects = ProductTagManager()
+
+    def __str__(self):
+        return self.name
+
+    def natural_key(self):
+        return (self.slug,)

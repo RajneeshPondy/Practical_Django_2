@@ -19,3 +19,8 @@ else:
     EMAIL_BACKEND = (
     "django.core.mail.backends.console.EmailBackend"
     )
+
+
+python manage.py dumpdata --indent 2 --natural-primary main.ProductTag > main/fixtures/producttags.json
+
+python manage.py loaddata main/fixtures/producttags.json

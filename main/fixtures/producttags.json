@@ -1,0 +1,14 @@
+[
+{
+  "model": "main.producttag",
+  "fields": {
+    "name": "Books",
+    "slug": "story-book-1",
+    "description": "hasjaksd",
+    "active": true,
+    "products": [
+      1
+    ]
+  }
+}
+]
