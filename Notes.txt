@@ -1,5 +1,29 @@
-curl -o main/static/css/bootstrap.min.css https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css ...
+├───.vscode
+├───booktime
+│   ├───media
+│   └───__pycache__
+├───main
+│   ├───fixtures
+│   ├───management
+│   │   └───commands
+│   ├───migrations
+│   │   └───__pycache__
+│   ├───static
+│   │   ├───css
+│   │   └───js
+│   ├───templates
+│   ├───tests
+│   │   └───__pycache__
+│   └───__pycache__
+├───media
+│   ├───product-images
+│   └───product-thumbnails
+├───product-images
+└───product-thumbnails
 
+
+
+curl -o main/static/css/bootstrap.min.css https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css ...
 
 curl -o main/static/js/jquery.min.js https://code.jquery.com/jquery-3.2.1.slim.min.js ...
 
@@ -24,3 +48,16 @@ else:
 python manage.py dumpdata --indent 2 --natural-primary main.ProductTag > main/fixtures/producttags.json
 
 python manage.py loaddata main/fixtures/producttags.json
+
+Running specific TestCases
+------------------------------------------
+python manage.py test main.tests.test_signals.TestSignal
+
+# Running Management commands
+------------------------------------------------------------
+
+python manage.py import_data main/fixtures/product-sample.csv main/fixtures/product-sampleimages/
+
+
+<a href="{% url "add_to_basket" %}?product_id={{ object.id }}">
+    Add to basket</a>
